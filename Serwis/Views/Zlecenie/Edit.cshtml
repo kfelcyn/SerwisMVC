@@ -1,13 +1,13 @@
 ﻿@model Serwis.Models.Zlecenie
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
@@ -15,6 +15,8 @@
         <h4>Zlecenie</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ZlecenieId)
+
         <div class="form-group">
             @Html.LabelFor(model => model.First_Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -82,7 +84,15 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Status, new List<SelectListItem>
+                          {
+                             new SelectListItem{ Text="Nowy", Value = "Nowy" },
+                             new SelectListItem{ Text="W trakcie naprawy", Value = "W trakcie naprawy" },
+                             new SelectListItem{ Text="Gotowy do wydania", Value = "Gotowy do wydania" },
+                             new SelectListItem{ Text="Czeka na odbiór przez klienta",Value="Czeka na odbiór przez klienta"},
+
+                          }, "Select Status", new { @class = "form-control select2_demo_4" })
+
                 @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -99,7 +109,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>

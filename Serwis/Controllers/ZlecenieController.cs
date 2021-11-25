@@ -19,11 +19,35 @@ namespace Serwis.Controllers
             return View(zlecenia);
         }
 
-        // GET: Zlecenie/Details/5
-        public ActionResult Details(int id)
+        public ActionResult OrderBy()
         {
-            return View();
+            var zlecenia = from z in db.Zlecenia
+                           orderby z.First_Name ascending
+                           select z;
+                           return View(zlecenia);
         }
+
+        public ActionResult ListDone()
+        {
+            var zlecenia = from z in db.Zlecenia
+                           where z.IsDone == true
+                           select z;
+
+            return View(zlecenia);
+        }
+
+        // GET: Zlecenie/Details/5
+        public ActionResult Details(int? id)
+        { if (id == null)
+            { 
+                return View("Error");
+        }
+        Zlecenie zlecenie = db.Zlecenia.Find(id);
+            if(zlecenie == null)
+                { return HttpNotFound(); }
+
+            return View(zlecenie);
+        } 
 
         // GET: Zlecenie/Create
         public ActionResult Create()
@@ -38,10 +62,14 @@ namespace Serwis.Controllers
             try
             {
                 // TODO: Add insert logic here
-                db.Zlecenia.Add(zlecenie);
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    db.Zlecenia.Add(zlecenie);
+                    db.SaveChanges();
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                return View(zlecenie);
             }
             catch
             {
@@ -50,20 +78,29 @@ namespace Serwis.Controllers
         }
 
         // GET: Zlecenie/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
+        public ActionResult Edit(int? id)
+        {   if (id == null)
+            { return View("Error"); }
+            Zlecenie zlecenie = db.Zlecenia.Find(id);
+            if (zlecenie == null)
+                return HttpNotFound();
+            return View(zlecenie);
         }
 
         // POST: Zlecenie/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Zlecenie zlecenie)
         {
             try
             {
                 // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(zlecenie).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(zlecenie);
             }
             catch
             {
@@ -72,20 +109,32 @@ namespace Serwis.Controllers
         }
 
         // GET: Zlecenie/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+        public ActionResult Delete(int? id)
+                 
+        {    if (id == null)
+                { return View("Error"); }
+            Zlecenie zlecenie = db.Zlecenia.Find(id);
+            if (zlecenie == null)
+            {
+                return HttpNotFound();
+            }
+
+            
+                return View(zlecenie);
         }
 
         // POST: Zlecenie/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                Zlecenie zlecenie = db.Zlecenia.Find(id);
+                db.Entry(zlecenie).State = System.Data.Entity.EntityState.Deleted;
+                db.SaveChanges();
                 return RedirectToAction("Index");
+                
+                
             }
             catch
             {

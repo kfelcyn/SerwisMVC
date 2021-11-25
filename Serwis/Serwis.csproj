@@ -239,8 +239,13 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Zlecenie\Index.cshtml" />
+    <Content Include="Views\Zlecenie\OrderBy.cshtml" />
+    <Content Include="Views\Zlecenie\ListDone.cshtml" />
     <Content Include="Views\Zlecenie\Create.cshtml" />
+    <Content Include="Views\Zlecenie\Details.cshtml" />
+    <Content Include="Views\Zlecenie\Index.cshtml" />
+    <Content Include="Views\Zlecenie\Edit.cshtml" />
+    <Content Include="Views\Zlecenie\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
