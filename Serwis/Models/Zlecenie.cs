@@ -23,18 +23,22 @@ namespace Serwis.Models
         [Required(ErrorMessage = "Pole Nazwisko - jest wymagane")]
         [MaxLength(100)]
         public string Last_Name { get; set; }
-        [Column(TypeName = "int")]
+        [Column(TypeName = "nvarchar")]
         [DisplayName("Telefon:")]
+        [StringLength(12, MinimumLength = 9)]
         [DataType(DataType.PhoneNumber)]
+        [Phone]
+        [RegularExpression(@"^(\d{9})$", ErrorMessage = "Wpisz 9 cyfrowy numer telefonu")]
         [Required(ErrorMessage = "Pole Telefon - jest wymagane")]
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         [Column(TypeName = "nvarchar")]
         [DisplayName("E-mail:")]
         [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Podaj prawdziwy adres e-mail")]
         [MaxLength(50)]
         public string Email { get; set; }
         [Column(TypeName = "nvarchar")]
-        [DisplayName("Opis usterki/szczegóły zlecenia:")]
+        [DisplayName("Opis zlecenia:")]
         [DataType(DataType.MultilineText)]
         [MaxLength(500)]
         public string Problem { get; set; }
@@ -45,10 +49,10 @@ namespace Serwis.Models
         [MaxLength(100)]
         public string Device { get; set; }
         [Column(TypeName = "date")]
-        [DisplayName("Data przyjęcia zgłoszenia:")]
+        [DisplayName("Data zgłoszenia:")]
         [DataType(DataType.Date)]
         
-        public DateTime CaseDate { get; set; }
+        public Nullable <DateTime> CaseDate { get; set; }
         [Column(TypeName = "nvarchar")]
         [DisplayName("Dodatki:")]
         [MaxLength(100)]

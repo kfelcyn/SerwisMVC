@@ -1,31 +1,25 @@
 ﻿@model IEnumerable<Serwis.Models.Zlecenie>
 
-@{ViewBag.Title = "Otwarte Zlecenia";
+@{
+    ViewBag.Title = "Wszystkie zlecenia";
+
 }
 
-
-
-
-<h2 class="display-4">Otwarte zlecenia</h2>
+<h2 class="display-4">Wszystkie zlecenia</h2>
 
 <p>
     <input type="button" class="btn btn-primary" value="Dodaj zlecenie" onclick="location.href='@Url.Action("Create", "Zlecenie")'">
 </p>
-@if (TempData["AlertMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Sukces!!</strong>   @TempData["AlertMessage"]
-    </div>
-}
+
 
 <div class="table-responsive ">
     <table class="table table-secondary  table-condensed table-striped table-hover ">
         <tr class="table-dark align-middle text-center">
             <th>
-                @Html.ActionLink("Imię", "Index", new {sortOrder= "FName" })
+                @Html.ActionLink("Imię", "AllOrders", new { sortOrder = "FName" })
             </th>
             <th>
-                @Html.ActionLink("Nazwisko", "Index", new { sortOrder = "LName" })
+                @Html.ActionLink("Nazwisko", "AllOrders", new { sortOrder = "LName" })
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Phone)
@@ -36,15 +30,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Problem)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CaseDate)
+            </th>
              <th>
-                 @Html.DisplayNameFor(model => model.CaseDate)
-             </th>
-             <th>
-                 @Html.ActionLink("Status", "Index", new { sortOrder = "status" })
-             </th>
+                @Html.DisplayNameFor(model => model.IsDone)
+            </th>
             <th style="width:280px"></th>
         </tr>
-        
+
 
         @foreach (var item in Model)
         {
@@ -67,8 +61,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.CaseDate)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
+         <td>
+            @Html.DisplayFor(modelItem => item.IsDone)
         </td>
         <td>
             @Html.ActionLink("Szczegóły", "Details", new { id = item.ZlecenieId }, new { @class = "btn btn-info" })
@@ -80,4 +74,4 @@
         }
 
     </table>
-    </div>
+</div>

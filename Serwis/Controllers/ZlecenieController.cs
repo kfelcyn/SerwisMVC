@@ -12,26 +12,74 @@ namespace Serwis.Controllers
     {
         ZlecenieContext db = new ZlecenieContext();
         // GET: Zlecenie
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            var zlecenia = db.Zlecenia.ToList(); 
+            var zlecenia = from z in db.Zlecenia.ToList()
+                           where z.IsDone == false
+                           select z;
+            switch (sortOrder)
+            {
+                case "FName":
+                    zlecenia = zlecenia.OrderBy(z => z.First_Name);
+                    break;
+                case "LName":
+                    zlecenia = zlecenia.OrderBy(z => z.Last_Name);
+                    break;
+                case "status":
+                    zlecenia = zlecenia.OrderBy(z => z.Status);
+                    break;
+                default:
+                    zlecenia = zlecenia.OrderBy(z => z.CaseDate);
+                    break;
+            }
+            
+        
 
             return View(zlecenia);
         }
 
-        public ActionResult OrderBy()
+        public ActionResult AllOrders(string sortOrder)
         {
             var zlecenia = from z in db.Zlecenia
-                           orderby z.First_Name ascending
                            select z;
-                           return View(zlecenia);
+            switch (sortOrder)
+            {
+                case "FName":
+                    zlecenia = zlecenia.OrderBy(z => z.First_Name);
+                    break;
+                case "LName":
+                    zlecenia = zlecenia.OrderBy(z => z.Last_Name);
+                    break;
+                case "status":
+                    zlecenia = zlecenia.OrderBy(z => z.Status);
+                    break;
+                default:
+                    zlecenia = zlecenia.OrderBy(z => z.CaseDate);
+                    break;
+            }
+            return View(zlecenia);
         }
 
-        public ActionResult ListDone()
+        public ActionResult ListDone(string sortOrder)
         {
             var zlecenia = from z in db.Zlecenia
                            where z.IsDone == true
                            select z;
+            switch (sortOrder)
+            {
+                case "FName":
+                    zlecenia = zlecenia.OrderBy(z => z.First_Name);
+                    break;
+                case "LName":
+                    zlecenia = zlecenia.OrderBy(z => z.Last_Name);
+                    break;
+                case "status":
+                    zlecenia = zlecenia.OrderBy(z => z.Status);
+                    break;
+                default:
+                    zlecenia = zlecenia.OrderBy(z => z.CaseDate);
+                    break;
+            }
 
             return View(zlecenia);
         }
@@ -66,6 +114,7 @@ namespace Serwis.Controllers
                 {
                     db.Zlecenia.Add(zlecenie);
                     db.SaveChanges();
+                    TempData["AlertMessage"] = "Prawidłowo dodano zlecenie...!";
 
                     return RedirectToAction("Index");
                 }
@@ -98,6 +147,7 @@ namespace Serwis.Controllers
                 {
                     db.Entry(zlecenie).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
+                    TempData["AlertMessage"] = "Zapisano zmiany...!";
                     return RedirectToAction("Index");
                 }
                 return View(zlecenie);
@@ -132,6 +182,7 @@ namespace Serwis.Controllers
                 Zlecenie zlecenie = db.Zlecenia.Find(id);
                 db.Entry(zlecenie).State = System.Data.Entity.EntityState.Deleted;
                 db.SaveChanges();
+                TempData["AlertMessage"] = "Zlecenie usunięte...!";
                 return RedirectToAction("Index");
                 
                 

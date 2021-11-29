@@ -1,14 +1,14 @@
 ﻿@model Serwis.Models.Zlecenie
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Usuń";
 }
 
-<h2>Delete</h2>
+<h2 class="display-4">Usuń</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3 class="display-6">Jesteś pewny, że chcesz usunąć to zlecenie?</h3>
 <div>
-    <h4>Zlecenie</h4>
+    
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -96,9 +96,9 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+<div class="form-actions no-color">
+    <input type="submit" value="Usuń" class="btn btn-outline-danger" /> |
+    <input type="button" class="btn btn-outline-dark" value="Wróć do zleceń" onclick="location.href='@Url.Action("Index", "Zlecenie")'">
+</div>
     }
 </div>
